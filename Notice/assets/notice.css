@@ -1,0 +1,212 @@
+/* TypechoNotice - 通知與公告前端樣式 */
+
+:root {
+    --notice-bg-light: #ffffff;
+    --notice-bg-dark: #1e1e2e;
+    --notice-text-light: #333333;
+    --notice-text-dark: #cdd6f4;
+    --notice-border-radius: 8px;
+    --notice-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --notice-info: #3498db;
+    --notice-success: #27ae60;
+    --notice-warning: #f39c12;
+    --notice-error: #e74c3c;
+    --notice-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Container positions */
+#typecho-notice-container {
+    position: fixed;
+    z-index: 99999;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    max-width: 480px;
+    width: 100%;
+    box-sizing: border-box;
+    pointer-events: none;
+}
+
+#typecho-notice-container > * {
+    pointer-events: auto;
+}
+
+.typecho-notice-top {
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.typecho-notice-bottom {
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.typecho-notice-center {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+/* Notice item */
+.typecho-notice-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-radius: var(--notice-border-radius);
+    box-shadow: var(--notice-shadow);
+    animation: noticeSlideIn 0.4s ease-out;
+    transition: var(--notice-transition);
+    border-left: 4px solid var(--notice-info);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+}
+
+.typecho-notice-item.notice-hiding {
+    animation: noticeSlideOut 0.3s ease-in forwards;
+}
+
+/* Theme: light */
+[data-theme="light"] .typecho-notice-item,
+.typecho-notice-item {
+    background: var(--notice-bg-light);
+    color: var(--notice-text-light);
+}
+
+/* Theme: dark */
+[data-theme="dark"] .typecho-notice-item {
+    background: var(--notice-bg-dark);
+    color: var(--notice-text-dark);
+}
+
+/* Theme: auto (follow system) */
+@media (prefers-color-scheme: dark) {
+    [data-theme="auto"] .typecho-notice-item {
+        background: var(--notice-bg-dark);
+        color: var(--notice-text-dark);
+    }
+}
+
+/* Type colors */
+.typecho-notice-type-info {
+    border-left-color: var(--notice-info);
+}
+
+.typecho-notice-type-success {
+    border-left-color: var(--notice-success);
+}
+
+.typecho-notice-type-warning {
+    border-left-color: var(--notice-warning);
+}
+
+.typecho-notice-type-error {
+    border-left-color: var(--notice-error);
+}
+
+/* Content */
+.typecho-notice-content {
+    flex: 1;
+    margin-right: 12px;
+}
+
+.typecho-notice-title {
+    font-weight: 600;
+    font-size: 15px;
+    margin-bottom: 4px;
+    line-height: 1.4;
+}
+
+.typecho-notice-text {
+    font-size: 14px;
+    line-height: 1.6;
+    opacity: 0.9;
+}
+
+/* Actions */
+.typecho-notice-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    flex-shrink: 0;
+}
+
+.typecho-notice-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    padding: 0 4px;
+    line-height: 1;
+    color: inherit;
+}
+
+.typecho-notice-close:hover {
+    opacity: 1;
+}
+
+.typecho-notice-dismiss {
+    background: none;
+    border: 1px solid currentColor;
+    border-radius: 4px;
+    font-size: 11px;
+    cursor: pointer;
+    opacity: 0.6;
+    transition: opacity 0.2s;
+    padding: 2px 8px;
+    color: inherit;
+    white-space: nowrap;
+}
+
+.typecho-notice-dismiss:hover {
+    opacity: 1;
+}
+
+/* Animations */
+@keyframes noticeSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes noticeSlideOut {
+    from {
+        opacity: 1;
+        transform: translateX(0);
+    }
+    to {
+        opacity: 0;
+        transform: translateX(100%);
+    }
+}
+
+/* Responsive */
+@media (max-width: 520px) {
+    #typecho-notice-container {
+        max-width: 100%;
+        padding: 8px;
+    }
+    
+    .typecho-notice-item {
+        padding: 12px 14px;
+    }
+    
+    .typecho-notice-title {
+        font-size: 14px;
+    }
+    
+    .typecho-notice-text {
+        font-size: 13px;
+    }
+}
