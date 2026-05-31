@@ -5,7 +5,7 @@
  * @package TypechoNotice
  * @author Hoshi
  * @version 1.0.0
- * @link https://github.com/moehoshio/TypechoNotice
+ * @link https://github.com/moehoshio/NekoTypechoPlugins
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;

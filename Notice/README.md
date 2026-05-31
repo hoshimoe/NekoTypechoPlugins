@@ -2,6 +2,8 @@
 
 一個用於 Typecho 的通知與公告插件，支持多條通知管理、定時顯示、現代化UI以及用戶記憶功能。
 
+> 本插件是 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 聚合專案中的子插件，對應倉庫中的 `Notice` 目錄。
+
 ## 功能特點
 
 - 📢 支持多條通知/公告管理
@@ -17,9 +19,11 @@
 
 ## 安裝
 
-1. 下載本插件，將文件夾重命名為 `TypechoNotice`
+1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Notice` 目錄，並將文件夾重命名為 `TypechoNotice`
 2. 上傳至 Typecho 的 `usr/plugins/` 目錄
 3. 在後台「插件」頁面啟用 `TypechoNotice`
+
+> 注意：插件文件夾名稱必須為 `TypechoNotice`，否則無法正常載入。
 
 ## 使用方法
 
