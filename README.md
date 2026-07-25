@@ -36,14 +36,6 @@ NekoTypechoPlugins 是一個 [Typecho](https://typecho.org/) 插件的聚合型�
 
 屬於 Typecho 核心、**不可**改名的識別字維持原樣，包括框架類名（`Typecho_Db`、`Typecho_Widget`、`Typecho_Plugin_Interface` 等）、常數 `__TYPECHO_ROOT_DIR__`、後台樣式類名（`typecho-option`、`typecho-label`、`typecho-list-table`、`typecho-pager` 等）以及 Typecho 自身的語言 Cookie `typecho_lang`。
 
-## 從舊命名升級
-
-舊版本使用 `TypechoNotice`、`TypechoLinks`、`TypechoCommentFilter` 作為類名與部署資料夾名。升級時需**停用插件 → 重新命名資料夾 → 覆蓋檔案 → 重新啟用**。
-
-各插件的**資料表名稱未變**（`notice`、`friendlinks`、`comment_filter_log`），因此通知、友鏈與攔截記錄都不會遺失；但 Typecho 以插件名稱儲存設置，**插件設置會重置**，需重新配置一次。自定義 CSS 與主題調用也需同步更新前綴。
-
-詳細步驟與注意事項請見各子插件 `README.md` 的「從舊版本升級」章節。
-
 ## 授權
 
 本專案以 MIT License 釋出，詳見 [LICENSE](./LICENSE)。

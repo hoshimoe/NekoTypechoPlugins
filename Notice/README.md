@@ -137,27 +137,6 @@ NekoTypechoNotice/
 
 ## 從舊版本升級
 
-### 從 `TypechoNotice` 舊命名升級
-
-插件自有的類名、部署資料夾名、CSS 類名與 Cookie 鍵已統一改為 `NekoTypechoNotice` / `neko-typecho-*` 前綴。
-（Typecho 核心的類名與後台樣式，如 `Typecho_Db`、`typecho-option`、Cookie `typecho_lang`，維持原樣不受影響。）
-
-升級步驟：
-
-1. 在後台「插件」頁面**停用** `TypechoNotice`。
-2. 將 `usr/plugins/TypechoNotice` 重新命名為 `usr/plugins/NekoTypechoNotice`，並以新版檔案覆蓋。
-3. 重新**啟用** `NekoTypechoNotice`。
-
-需要留意的變更：
-
-- **通知資料不受影響**：`notice` 資料表名稱未變，既有通知與多語言版本全部保留。
-- **插件設置會重置**：Typecho 以插件名稱儲存設置，改名後請在設置頁重新配置一次（顯示位置、主題、Cookie 天數、多語言判定方式、自定義CSS）。
-- **自定義 CSS 需同步**：`.typecho-notice-*` → `.neko-typecho-notice-*`，容器 id `typecho-notice-container` → `neko-typecho-notice-container`。
-- **主題調用需同步**：`TypechoNotice_Plugin::` → `NekoTypechoNotice_Plugin::`。
-- **訪客的「不再顯示」記錄會重置**：Cookie 鍵由 `typecho_notice_dismissed` 改為 `neko_typecho_notice_dismissed`，先前點過「不再顯示」的訪客會再看到一次通知。
-
-### 多語言欄位
-
 多語言功能為 `notice` 資料表新增了 `default_lang` 與 `i18n` 兩個欄位，需要**停用後再啟用**插件才會套用。
 
 自 v1.1.0 起，停用插件**不再刪除** `notice` 資料表，因此升級時不會遺失既有通知；如需徹底清除資料，請手動刪除該資料表。

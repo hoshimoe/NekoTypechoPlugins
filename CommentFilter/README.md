@@ -143,27 +143,6 @@ NekoTypechoCommentFilter/
 └── README.md
 ```
 
-## 從舊版本升級
-
-### 從 `TypechoCommentFilter` 舊命名升級
-
-插件自有的類名與部署資料夾名已統一改為 `NekoTypechoCommentFilter` 前綴。
-（Typecho 核心的類名與後台樣式，如 `Typecho_Db`、`typecho-option`、Cookie `typecho_lang`，維持原樣不受影響。）
-
-升級步驟：
-
-1. 在後台「插件」頁面**停用** `TypechoCommentFilter`。
-2. 將 `usr/plugins/TypechoCommentFilter` 重新命名為 `usr/plugins/NekoTypechoCommentFilter`，並以新版檔案覆蓋。
-3. 重新**啟用** `NekoTypechoCommentFilter`。
-
-需要留意的變更：
-
-- **攔截記錄不受影響**：`comment_filter_log` 資料表名稱未變，既有記錄全部保留，仍可複查與還原。
-- **插件設置會重置**：Typecho 以插件名稱儲存設置，改名後請在設置頁重新配置一次（過濾規則、白名單、拒絕提示等）。
-- **主題／程式調用需同步**：`TypechoCommentFilter_Plugin::` → `NekoTypechoCommentFilter_Plugin::`。
-
-> 停用期間送出的評論不會被過濾，建議在低流量時段進行升級。
-
 ## 相容性
 
 - Typecho 1.1 / 1.2
