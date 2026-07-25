@@ -1,4 +1,4 @@
-# TypechoNotice
+# NekoTypechoNotice
 
 一個用於 Typecho 的通知與公告插件，支持多條通知管理、定時顯示、多語言版本、現代化UI以及用戶記憶功能。
 
@@ -20,11 +20,11 @@
 
 ## 安裝
 
-1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Notice` 目錄，並將文件夾重命名為 `TypechoNotice`
+1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Notice` 目錄，並將文件夾重命名為 `NekoTypechoNotice`
 2. 上傳至 Typecho 的 `usr/plugins/` 目錄
-3. 在後台「插件」頁面啟用 `TypechoNotice`
+3. 在後台「插件」頁面啟用 `NekoTypechoNotice`
 
-> 注意：插件文件夾名稱必須為 `TypechoNotice`，否則無法正常載入。
+> 注意：插件文件夾名稱必須為 `NekoTypechoNotice`，否則無法正常載入。
 
 ## 使用方法
 
@@ -76,7 +76,7 @@
 ```php
 <?php
 // 已依訪客語言取好標題與內容，另附 lang 欄位標示實際採用的語言
-$notices = TypechoNotice_Plugin::getNotices();
+$notices = NekoTypechoNotice_Plugin::getNotices();
 foreach ($notices as $notice) {
     echo '<div class="my-notice" lang="' . htmlspecialchars($notice['lang']) . '">';
     echo '<h4>' . htmlspecialchars($notice['title']) . '</h4>';
@@ -85,10 +85,10 @@ foreach ($notices as $notice) {
 }
 
 // 取得未經語言處理的原始資料
-$raw = TypechoNotice_Plugin::getNotices(false);
+$raw = NekoTypechoNotice_Plugin::getNotices(false);
 
 // 指定語言取值
-$notice = TypechoNotice_Plugin::localize($raw[0], array('ja'));
+$notice = NekoTypechoNotice_Plugin::localize($raw[0], array('ja'));
 ?>
 ```
 
@@ -98,12 +98,12 @@ $notice = TypechoNotice_Plugin::localize($raw[0], array('ja'));
 
 ```css
 /* 修改通知圓角 */
-.typecho-notice-item {
+.neko-typecho-notice-item {
     border-radius: 0;
 }
 
 /* 修改通知背景 */
-.typecho-notice-item {
+.neko-typecho-notice-item {
     background: rgba(255, 255, 255, 0.95);
 }
 ```
@@ -123,7 +123,7 @@ CSS變量列表：
 ## 目錄結構
 
 ```
-TypechoNotice/
+NekoTypechoNotice/
 ├── Plugin.php          # 主插件文件
 ├── Action.php          # 後台操作處理
 ├── I18n.php            # 多語言解析與語言回退

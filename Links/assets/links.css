@@ -1,4 +1,4 @@
-/* TypechoLinks - 友情鏈接前端樣式 */
+/* NekoTypechoLinks - 友情鏈接前端樣式 */
 
 :root {
     --links-bg: #ffffff;
@@ -23,23 +23,23 @@
     }
 }
 
-.typecho-links {
+.neko-typecho-links {
     margin: 1em 0;
 }
 
-.typecho-links-empty {
+.neko-typecho-links-empty {
     color: var(--links-muted);
     padding: 1em 0;
 }
 
-.typecho-links-category {
+.neko-typecho-links-category {
     font-size: 1.1em;
     margin: 1.2em 0 0.6em;
     padding-left: 0.5em;
     border-left: 4px solid var(--links-accent);
 }
 
-.typecho-links-list {
+.neko-typecho-links-list {
     list-style: none;
     margin: 0;
     padding: 0;
@@ -48,7 +48,7 @@
     gap: 14px;
 }
 
-.typecho-link-item {
+.neko-typecho-link-item {
     background: var(--links-bg);
     border: 1px solid var(--links-border);
     border-radius: var(--links-radius);
@@ -57,12 +57,12 @@
     overflow: hidden;
 }
 
-.typecho-link-item:hover {
+.neko-typecho-link-item:hover {
     box-shadow: var(--links-shadow-hover);
     transform: translateY(-2px);
 }
 
-.typecho-link-main {
+.neko-typecho-link-main {
     display: flex;
     align-items: center;
     gap: 12px;
@@ -71,7 +71,7 @@
     color: var(--links-text);
 }
 
-.typecho-link-avatar {
+.neko-typecho-link-avatar {
     width: 44px;
     height: 44px;
     border-radius: 50%;
@@ -80,20 +80,20 @@
     background: var(--links-border);
 }
 
-.typecho-link-info {
+.neko-typecho-link-info {
     display: flex;
     flex-direction: column;
     min-width: 0;
 }
 
-.typecho-link-name {
+.neko-typecho-link-name {
     font-weight: 600;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
 }
 
-.typecho-link-desc {
+.neko-typecho-link-desc {
     font-size: 0.85em;
     color: var(--links-muted);
     white-space: nowrap;
@@ -102,36 +102,36 @@
 }
 
 /* RSS 區塊 */
-.typecho-link-rss {
+.neko-typecho-link-rss {
     border-top: 1px dashed var(--links-border);
     padding: 8px 14px;
     font-size: 0.82em;
 }
 
-.typecho-link-rss.is-empty,
-.typecho-link-rss.is-loading {
+.neko-typecho-link-rss.is-empty,
+.neko-typecho-link-rss.is-loading {
     color: var(--links-muted);
 }
 
-.typecho-link-rss ul {
+.neko-typecho-link-rss ul {
     list-style: none;
     margin: 0;
     padding: 0;
 }
 
-.typecho-link-rss li {
+.neko-typecho-link-rss li {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     line-height: 1.7;
 }
 
-.typecho-link-rss a {
+.neko-typecho-link-rss a {
     color: var(--links-muted);
     text-decoration: none;
     transition: var(--links-transition);
 }
 
-.typecho-link-rss a:hover {
+.neko-typecho-link-rss a:hover {
     color: var(--links-accent);
 }

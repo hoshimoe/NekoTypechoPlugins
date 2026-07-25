@@ -1,4 +1,4 @@
-# TypechoCommentFilter
+# NekoTypechoCommentFilter
 
 一個用於攔截「帶連結的垃圾評論」的 Typecho 插件。預設在評論寫入資料庫**之前**直接拒絕，因此垃圾評論不會進入待審核列表，郵件通知插件自然也不會發信；被攔截的內容仍會留在後台的攔截記錄中，可隨時複查與還原。
 
@@ -32,11 +32,11 @@ Typecho 的「待審核」只是把評論寫進資料庫並標記狀態，郵件
 
 ## 安裝
 
-1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `CommentFilter` 目錄，並將文件夾重命名為 `TypechoCommentFilter`
+1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `CommentFilter` 目錄，並將文件夾重命名為 `NekoTypechoCommentFilter`
 2. 上傳至 Typecho 的 `usr/plugins/` 目錄
-3. 在後台「插件」頁面啟用 `TypechoCommentFilter`
+3. 在後台「插件」頁面啟用 `NekoTypechoCommentFilter`
 
-> 注意：插件文件夾名稱必須為 `TypechoCommentFilter`，否則無法正常載入。
+> 注意：插件文件夾名稱必須為 `NekoTypechoCommentFilter`，否則無法正常載入。
 
 啟用後即以預設規則（禁止任何連結、直接拒絕、記錄攔截內容）開始工作，無需額外設置。
 
@@ -121,20 +121,20 @@ ja: コメントにリンクを含めることはできません。
 ```php
 <?php
 // 檢查一段文字是否會被攔截，命中時回傳 array(rule, field, sample)，否則 null
-$hit = TypechoCommentFilter_Plugin::inspectText('看看 http://spam.example.com');
+$hit = NekoTypechoCommentFilter_Plugin::inspectText('看看 http://spam.example.com');
 
 // 取出文本中所有非白名單連結的網域
-$links = TypechoCommentFilter_Plugin::findLinks($text);
+$links = NekoTypechoCommentFilter_Plugin::findLinks($text);
 
 // 取得當前訪客語言下的拒絕提示
-$message = TypechoCommentFilter_Plugin::rejectMessage($hit);
+$message = NekoTypechoCommentFilter_Plugin::rejectMessage($hit);
 ?>
 ```
 
 ## 目錄結構
 
 ```
-TypechoCommentFilter/
+NekoTypechoCommentFilter/
 ├── Plugin.php                    # 主插件文件（過濾規則與掛載點）
 ├── Action.php                    # 後台操作處理（還原、刪除、清理）
 ├── I18n.php                      # 多語言解析與語言回退

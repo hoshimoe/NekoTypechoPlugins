@@ -1,7 +1,7 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-class TypechoCommentFilter_Action extends Typecho_Widget implements Widget_Interface_Do
+class NekoTypechoCommentFilter_Action extends Typecho_Widget implements Widget_Interface_Do
 {
     private $db;
     private $prefix;
@@ -134,7 +134,7 @@ class TypechoCommentFilter_Action extends Typecho_Widget implements Widget_Inter
     {
         $this->_auth();
 
-        TypechoCommentFilter_Plugin::cleanLog(NULL, true);
+        NekoTypechoCommentFilter_Plugin::cleanLog(NULL, true);
 
         $this->widget('Widget_Notice')->set(_t('過期記錄已清理'), 'success');
         $this->_redirect();
@@ -212,7 +212,7 @@ class TypechoCommentFilter_Action extends Typecho_Widget implements Widget_Inter
     private function _redirect()
     {
         $page = intval($this->request->get('page', 1));
-        $url = 'extending.php?panel=TypechoCommentFilter/manage-comment-filter.php';
+        $url = 'extending.php?panel=NekoTypechoCommentFilter/manage-comment-filter.php';
         if ($page > 1) {
             $url .= '&page=' . $page;
         }

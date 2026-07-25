@@ -10,17 +10,17 @@
  *   5. 英文（en）
  *   6. 任意一個有內容的版本
  *
- * 本文件在 TypechoNotice 與其他子插件中各有一份副本，
+ * 本文件在 NekoTypechoNotice 與其他子插件中各有一份副本，
  * 以保證每個子插件都能獨立部署，修改時請同步。
  *
- * @package TypechoNotice
+ * @package NekoTypechoNotice
  * @author Hoshi
  * @link https://github.com/moehoshio/NekoTypechoPlugins
  */
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-class TypechoNotice_I18n
+class NekoTypechoNotice_I18n
 {
     /**
      * 未標記語言的缺省版本所使用的鍵名

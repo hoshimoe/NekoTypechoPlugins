@@ -125,7 +125,7 @@ function _tl_h($value)
                         <li>
                             <button type="submit" class="btn primary"><?php echo $editLink ? '更新友鏈' : '新增友鏈'; ?></button>
                             <?php if ($editLink): ?>
-                            <a href="<?php echo $adminUrl; ?>extending.php?panel=TypechoLinks/manage-links.php" class="btn">取消</a>
+                            <a href="<?php echo $adminUrl; ?>extending.php?panel=NekoTypechoLinks/manage-links.php" class="btn">取消</a>
                             <?php endif; ?>
                         </li>
                     </ul>
@@ -182,7 +182,7 @@ function _tl_h($value)
                             <?php foreach ($links as $link): ?>
                             <tr <?php echo (!$link['visible']) ? 'style="opacity:0.5"' : ''; ?>>
                                 <td>
-                                    <a href="<?php echo $adminUrl; ?>extending.php?panel=TypechoLinks/manage-links.php&edit=<?php echo intval($link['id']); ?>">
+                                    <a href="<?php echo $adminUrl; ?>extending.php?panel=NekoTypechoLinks/manage-links.php&edit=<?php echo intval($link['id']); ?>">
                                         <?php echo _tl_h($link['name'] ?: '(無名稱)'); ?>
                                     </a>
                                 </td>
@@ -208,7 +208,7 @@ function _tl_h($value)
                 <p><code>[friendlinks]</code></p>
                 <p class="description">可帶屬性：<code>[friendlinks category="技術" order="random" limit="10" rss="1"]</code></p>
                 <p class="description">主題中調用：</p>
-                <pre style="white-space:pre-wrap;">&lt;?php echo TypechoLinks_Plugin::render(); ?&gt;</pre>
+                <pre style="white-space:pre-wrap;">&lt;?php echo NekoTypechoLinks_Plugin::render(); ?&gt;</pre>
             </div>
         </div>
     </div>

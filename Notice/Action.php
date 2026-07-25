@@ -1,7 +1,7 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
+class NekoTypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
 {
     private $db;
     private $prefix;
@@ -32,7 +32,7 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
         $this->db->query($this->db->insert('table.notice')->rows($data));
 
         $this->widget('Widget_Notice')->set(_t('通知已新增'), 'success');
-        $this->response->redirect(Typecho_Common::url('extending.php?panel=TypechoNotice/manage-notice.php', Helper::options()->adminUrl));
+        $this->response->redirect(Typecho_Common::url('extending.php?panel=NekoTypechoNotice/manage-notice.php', Helper::options()->adminUrl));
     }
 
     /**
@@ -54,7 +54,7 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
         $this->db->query($this->db->update('table.notice')->rows($data)->where('id = ?', $id));
 
         $this->widget('Widget_Notice')->set(_t('通知已更新'), 'success');
-        $this->response->redirect(Typecho_Common::url('extending.php?panel=TypechoNotice/manage-notice.php', Helper::options()->adminUrl));
+        $this->response->redirect(Typecho_Common::url('extending.php?panel=NekoTypechoNotice/manage-notice.php', Helper::options()->adminUrl));
     }
 
     /**
@@ -73,7 +73,7 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
         $this->db->query($this->db->delete('table.notice')->where('id = ?', $id));
 
         $this->widget('Widget_Notice')->set(_t('通知已刪除'), 'success');
-        $this->response->redirect(Typecho_Common::url('extending.php?panel=TypechoNotice/manage-notice.php', Helper::options()->adminUrl));
+        $this->response->redirect(Typecho_Common::url('extending.php?panel=NekoTypechoNotice/manage-notice.php', Helper::options()->adminUrl));
     }
 
     /**
@@ -96,7 +96,7 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
         }
 
         $this->widget('Widget_Notice')->set(_t('狀態已更新'), 'success');
-        $this->response->redirect(Typecho_Common::url('extending.php?panel=TypechoNotice/manage-notice.php', Helper::options()->adminUrl));
+        $this->response->redirect(Typecho_Common::url('extending.php?panel=NekoTypechoNotice/manage-notice.php', Helper::options()->adminUrl));
     }
 
     /**
@@ -140,8 +140,8 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
         );
 
         // 資料表尚未升級時略過多語言欄位，避免寫入不存在的欄位
-        if (TypechoNotice_Plugin::ensureI18nColumns()) {
-            $data['default_lang'] = TypechoNotice_I18n::normalize($this->request->get('default_lang', ''));
+        if (NekoTypechoNotice_Plugin::ensureI18nColumns()) {
+            $data['default_lang'] = NekoTypechoNotice_I18n::normalize($this->request->get('default_lang', ''));
             $data['i18n'] = $this->_collectI18n();
         }
 
@@ -165,8 +165,8 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
         $result = array();
 
         foreach ($langs as $index => $lang) {
-            $lang = TypechoNotice_I18n::normalize($lang);
-            if ('' === $lang || TypechoNotice_I18n::DEFAULT_KEY === $lang) {
+            $lang = NekoTypechoNotice_I18n::normalize($lang);
+            if ('' === $lang || NekoTypechoNotice_I18n::DEFAULT_KEY === $lang) {
                 continue;
             }
 

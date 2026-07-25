@@ -9,7 +9,7 @@
  * 也不會觸發郵件通知插件的提醒；被攔截的內容仍會留存在後台攔截記錄中，
  * 可隨時複查與還原，避免誤殺。
  *
- * @package TypechoCommentFilter
+ * @package NekoTypechoCommentFilter
  * @author Hoshi
  * @version 1.0.0
  * @link https://github.com/moehoshio/NekoTypechoPlugins
@@ -17,11 +17,11 @@
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-if (!class_exists('TypechoCommentFilter_I18n', false)) {
+if (!class_exists('NekoTypechoCommentFilter_I18n', false)) {
     require_once dirname(__FILE__) . '/I18n.php';
 }
 
-class TypechoCommentFilter_Plugin implements Typecho_Plugin_Interface
+class NekoTypechoCommentFilter_Plugin implements Typecho_Plugin_Interface
 {
     /**
      * 預設的拒絕提示（多語言）
@@ -83,10 +83,10 @@ class TypechoCommentFilter_Plugin implements Typecho_Plugin_Interface
             KEY `created` (`created`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-        Helper::addPanel(3, 'TypechoCommentFilter/manage-comment-filter.php', '評論過濾', '查看與還原被攔截的評論', 'administrator');
-        Helper::addAction('comment-filter', 'TypechoCommentFilter_Action');
+        Helper::addPanel(3, 'NekoTypechoCommentFilter/manage-comment-filter.php', '評論過濾', '查看與還原被攔截的評論', 'administrator');
+        Helper::addAction('comment-filter', 'NekoTypechoCommentFilter_Action');
 
-        Typecho_Plugin::factory('Widget_Feedback')->comment = array('TypechoCommentFilter_Plugin', 'filter');
+        Typecho_Plugin::factory('Widget_Feedback')->comment = array('NekoTypechoCommentFilter_Plugin', 'filter');
 
         return _t('插件已激活，預設會直接拒絕含連結的評論；可前往「評論過濾」頁面查看攔截記錄。');
     }
@@ -99,7 +99,7 @@ class TypechoCommentFilter_Plugin implements Typecho_Plugin_Interface
      */
     public static function deactivate()
     {
-        Helper::removePanel(3, 'TypechoCommentFilter/manage-comment-filter.php');
+        Helper::removePanel(3, 'NekoTypechoCommentFilter/manage-comment-filter.php');
         Helper::removeAction('comment-filter');
 
         return _t('插件已禁用，攔截記錄仍保留（如需清除請手動刪除 comment_filter_log 資料表）。');
@@ -671,11 +671,11 @@ class TypechoCommentFilter_Plugin implements Typecho_Plugin_Interface
         $config = $config ?: self::pluginConfig();
 
         $raw = (string) self::option($config, 'rejectMessage', self::DEFAULT_REJECT_MESSAGE);
-        $langs = TypechoCommentFilter_I18n::detect(self::option($config, 'langSource', 'auto'));
+        $langs = NekoTypechoCommentFilter_I18n::detect(self::option($config, 'langSource', 'auto'));
 
-        $message = TypechoCommentFilter_I18n::text($raw, $langs);
+        $message = NekoTypechoCommentFilter_I18n::text($raw, $langs);
         if ('' === $message) {
-            $message = TypechoCommentFilter_I18n::text(self::DEFAULT_REJECT_MESSAGE, $langs);
+            $message = NekoTypechoCommentFilter_I18n::text(self::DEFAULT_REJECT_MESSAGE, $langs);
         }
 
         $sample = isset($hit['sample']) ? (string) $hit['sample'] : '';
@@ -772,7 +772,7 @@ class TypechoCommentFilter_Plugin implements Typecho_Plugin_Interface
     public static function pluginConfig()
     {
         try {
-            return Helper::options()->plugin('TypechoCommentFilter');
+            return Helper::options()->plugin('NekoTypechoCommentFilter');
         } catch (Exception $e) {
             return null;
         }

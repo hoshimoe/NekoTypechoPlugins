@@ -1,4 +1,4 @@
-# TypechoLinks
+# NekoTypechoLinks
 
 一個功能完善的 Typecho 友情鏈接插件，支持現有友鏈匯入、優先級、分類、排序/隨機排序、隨機取得一個或多個，以及前端側 RSS 擷取與展示。
 
@@ -19,11 +19,11 @@
 
 ## 安裝
 
-1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Links` 目錄，並將文件夾重命名為 `TypechoLinks`
+1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Links` 目錄，並將文件夾重命名為 `NekoTypechoLinks`
 2. 上傳至 Typecho 的 `usr/plugins/` 目錄
-3. 在後台「插件」頁面啟用 `TypechoLinks`
+3. 在後台「插件」頁面啟用 `NekoTypechoLinks`
 
-> 注意：插件文件夾名稱必須為 `TypechoLinks`，否則無法正常載入。
+> 注意：插件文件夾名稱必須為 `NekoTypechoLinks`，否則無法正常載入。
 
 ## 使用方法
 
@@ -74,24 +74,24 @@
 ```php
 <?php
 // 渲染完整友鏈列表（HTML）
-echo TypechoLinks_Plugin::render();
+echo NekoTypechoLinks_Plugin::render();
 
 // 帶參數渲染
-echo TypechoLinks_Plugin::render(array(
+echo NekoTypechoLinks_Plugin::render(array(
     'category' => '技術',
     'order'    => 'random',
     'limit'    => 12,
 ));
 
 // 取得友鏈資料陣列（自行渲染）
-$links = TypechoLinks_Plugin::getLinks(array('order' => 'priority', 'limit' => 0));
+$links = NekoTypechoLinks_Plugin::getLinks(array('order' => 'priority', 'limit' => 0));
 
 // 隨機取得一個或多個友鏈
-$one  = TypechoLinks_Plugin::getRandomLinks(1);
-$some = TypechoLinks_Plugin::getRandomLinks(5);
+$one  = NekoTypechoLinks_Plugin::getRandomLinks(1);
+$some = NekoTypechoLinks_Plugin::getRandomLinks(5);
 
 // 取得所有分類
-$categories = TypechoLinks_Plugin::getCategories();
+$categories = NekoTypechoLinks_Plugin::getCategories();
 ?>
 ```
 
@@ -114,7 +114,7 @@ $categories = TypechoLinks_Plugin::getCategories();
 ## 目錄結構
 
 ```
-TypechoLinks/
+NekoTypechoLinks/
 ├── Plugin.php          # 主插件文件
 ├── Action.php          # 後台操作處理（CRUD 與匯入）
 ├── manage-links.php    # 後台管理頁面

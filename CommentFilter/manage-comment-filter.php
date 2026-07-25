@@ -10,7 +10,7 @@ $options = Helper::options();
 $adminUrl = $options->adminUrl;
 $actionUrl = $options->index . '/action/comment-filter';
 $security = Typecho_Widget::widget('Widget_Security');
-$config = TypechoCommentFilter_Plugin::pluginConfig();
+$config = NekoTypechoCommentFilter_Plugin::pluginConfig();
 
 $pageSize = 20;
 $page = max(1, intval(isset($_GET['page']) ? $_GET['page'] : 1));
@@ -49,7 +49,7 @@ if (!empty($cids)) {
 $testText = isset($_POST['testText']) ? (string) $_POST['testText'] : '';
 $testResult = null;
 if ('' !== trim($testText)) {
-    $testResult = TypechoCommentFilter_Plugin::inspectText($testText, $config);
+    $testResult = NekoTypechoCommentFilter_Plugin::inspectText($testText, $config);
 }
 
 function _tcf_h($value)
@@ -152,11 +152,11 @@ $handledLabels = array(
                 <?php if ($totalPages > 1): ?>
                 <ul class="typecho-pager">
                     <?php if ($page > 1): ?>
-                    <li class="prev"><a href="<?php echo $adminUrl; ?>extending.php?panel=TypechoCommentFilter/manage-comment-filter.php&page=<?php echo $page - 1; ?>">上一頁</a></li>
+                    <li class="prev"><a href="<?php echo $adminUrl; ?>extending.php?panel=NekoTypechoCommentFilter/manage-comment-filter.php&page=<?php echo $page - 1; ?>">上一頁</a></li>
                     <?php endif; ?>
                     <li class="current">第 <?php echo $page; ?> / <?php echo $totalPages; ?> 頁</li>
                     <?php if ($page < $totalPages): ?>
-                    <li class="next"><a href="<?php echo $adminUrl; ?>extending.php?panel=TypechoCommentFilter/manage-comment-filter.php&page=<?php echo $page + 1; ?>">下一頁</a></li>
+                    <li class="next"><a href="<?php echo $adminUrl; ?>extending.php?panel=NekoTypechoCommentFilter/manage-comment-filter.php&page=<?php echo $page + 1; ?>">下一頁</a></li>
                     <?php endif; ?>
                 </ul>
                 <?php endif; ?>
@@ -181,23 +181,23 @@ $handledLabels = array(
                         <p class="description">
                             處理方式：<strong><?php
                                 $actionLabels = array('reject' => '直接拒絕（不入庫、不發信）', 'spam' => '標記為垃圾', 'waiting' => '標記為待審核');
-                                $current = TypechoCommentFilter_Plugin::option($config, 'action', 'reject');
+                                $current = NekoTypechoCommentFilter_Plugin::option($config, 'action', 'reject');
                                 echo isset($actionLabels[$current]) ? $actionLabels[$current] : _tcf_h($current);
                             ?></strong><br />
-                            允許連結數：<strong><?php echo intval(TypechoCommentFilter_Plugin::option($config, 'maxLinks', 0)); ?></strong><br />
-                            裸域名偵測：<strong><?php echo TypechoCommentFilter_Plugin::option($config, 'detectBare', '1') === '1' ? '開啟' : '關閉'; ?></strong><br />
-                            混淆偵測：<strong><?php echo TypechoCommentFilter_Plugin::option($config, 'detectObfuscated', '1') === '1' ? '開啟' : '關閉'; ?></strong><br />
+                            允許連結數：<strong><?php echo intval(NekoTypechoCommentFilter_Plugin::option($config, 'maxLinks', 0)); ?></strong><br />
+                            裸域名偵測：<strong><?php echo NekoTypechoCommentFilter_Plugin::option($config, 'detectBare', '1') === '1' ? '開啟' : '關閉'; ?></strong><br />
+                            混淆偵測：<strong><?php echo NekoTypechoCommentFilter_Plugin::option($config, 'detectObfuscated', '1') === '1' ? '開啟' : '關閉'; ?></strong><br />
                             白名單：<?php
-                                $whitelist = TypechoCommentFilter_Plugin::whitelist($config);
+                                $whitelist = NekoTypechoCommentFilter_Plugin::whitelist($config);
                                 echo empty($whitelist) ? '（無）' : _tcf_h(implode('、', $whitelist));
                             ?>
                         </p>
-                        <p><a class="btn btn-s" href="<?php echo $adminUrl; ?>options-plugin.php?config=TypechoCommentFilter">前往插件設置</a></p>
+                        <p><a class="btn btn-s" href="<?php echo $adminUrl; ?>options-plugin.php?config=NekoTypechoCommentFilter">前往插件設置</a></p>
                     </li>
                 </ul>
 
                 <h3>規則測試</h3>
-                <form action="<?php echo $adminUrl; ?>extending.php?panel=TypechoCommentFilter/manage-comment-filter.php" method="post">
+                <form action="<?php echo $adminUrl; ?>extending.php?panel=NekoTypechoCommentFilter/manage-comment-filter.php" method="post">
                     <?php $security->token(); ?>
                     <ul class="typecho-option">
                         <li>
@@ -217,7 +217,7 @@ $handledLabels = array(
                     結果：<strong>攔截</strong><br />
                     命中規則：<?php echo isset($ruleLabels[$testResult['rule']]) ? $ruleLabels[$testResult['rule']] : _tcf_h($testResult['rule']); ?><br />
                     命中內容：<code><?php echo _tcf_h($testResult['sample']); ?></code><br />
-                    拒絕提示：<?php echo _tcf_h(TypechoCommentFilter_Plugin::rejectMessage($testResult, $config)); ?>
+                    拒絕提示：<?php echo _tcf_h(NekoTypechoCommentFilter_Plugin::rejectMessage($testResult, $config)); ?>
                     <?php endif; ?>
                 </p>
                 <?php endif; ?>
