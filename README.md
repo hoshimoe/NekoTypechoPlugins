@@ -7,8 +7,9 @@ NekoTypechoPlugins 是一個 [Typecho](https://typecho.org/) 插件的聚合型�
 
 | 目錄 | 插件名稱 | 部署文件夾名 | 說明 |
 | ---- | -------- | ------------ | ---- |
-| [`Notice`](./Notice) | TypechoNotice | `TypechoNotice` | 通知與公告插件，支持多條通知管理、定時顯示、現代化 UI 以及用戶「不再顯示」記憶功能。 |
+| [`Notice`](./Notice) | TypechoNotice | `TypechoNotice` | 通知與公告插件，支持多條通知管理、定時顯示、多語言版本、現代化 UI 以及用戶「不再顯示」記憶功能。 |
 | [`Links`](./Links) | TypechoLinks | `TypechoLinks` | 功能完善的友情鏈接插件，支持匯入、優先級、分類、排序/隨機排序、隨機取得，以及前端側 RSS 擷取與展示。 |
+| [`CommentFilter`](./CommentFilter) | TypechoCommentFilter | `TypechoCommentFilter` | 評論連結過濾插件，攔截含連結（含裸域名與混淆寫法）的垃圾評論。預設在寫入資料庫前直接拒絕，不產生待審核記錄、不觸發郵件通知，並提供攔截記錄以便複查與還原。 |
 
 ## 安裝方式
 
