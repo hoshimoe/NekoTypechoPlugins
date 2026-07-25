@@ -25,17 +25,9 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
         $user = Typecho_Widget::widget('Widget_User');
         $user->pass('administrator');
 
-        $data = array(
-            'title' => $this->request->get('title', ''),
-            'content' => $this->request->get('content', ''),
-            'type' => $this->request->get('type', 'info'),
-            'visible' => $this->request->get('visible', 1) ? 1 : 0,
-            'start_time' => $this->_parseTime($this->request->get('start_time', '')),
-            'end_time' => $this->_parseTime($this->request->get('end_time', '')),
-            'order_num' => intval($this->request->get('order_num', 0)),
-            'created' => time(),
-            'modified' => time()
-        );
+        $data = $this->_collect();
+        $data['created'] = time();
+        $data['modified'] = time();
 
         $this->db->query($this->db->insert('table.notice')->rows($data));
 
@@ -56,16 +48,8 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
             throw new Typecho_Widget_Exception(_t('通知ID不存在'));
         }
 
-        $data = array(
-            'title' => $this->request->get('title', ''),
-            'content' => $this->request->get('content', ''),
-            'type' => $this->request->get('type', 'info'),
-            'visible' => $this->request->get('visible', 1) ? 1 : 0,
-            'start_time' => $this->_parseTime($this->request->get('start_time', '')),
-            'end_time' => $this->_parseTime($this->request->get('end_time', '')),
-            'order_num' => intval($this->request->get('order_num', 0)),
-            'modified' => time()
-        );
+        $data = $this->_collect();
+        $data['modified'] = time();
 
         $this->db->query($this->db->update('table.notice')->rows($data)->where('id = ?', $id));
 
@@ -138,6 +122,69 @@ class TypechoNotice_Action extends Typecho_Widget implements Widget_Interface_Do
             default:
                 throw new Typecho_Widget_Exception(_t('無效的操作'));
         }
+    }
+
+    /**
+     * 收集表單資料
+     */
+    private function _collect()
+    {
+        $data = array(
+            'title' => $this->request->get('title', ''),
+            'content' => $this->request->get('content', ''),
+            'type' => $this->request->get('type', 'info'),
+            'visible' => $this->request->get('visible', 1) ? 1 : 0,
+            'start_time' => $this->_parseTime($this->request->get('start_time', '')),
+            'end_time' => $this->_parseTime($this->request->get('end_time', '')),
+            'order_num' => intval($this->request->get('order_num', 0))
+        );
+
+        // 資料表尚未升級時略過多語言欄位，避免寫入不存在的欄位
+        if (TypechoNotice_Plugin::ensureI18nColumns()) {
+            $data['default_lang'] = TypechoNotice_I18n::normalize($this->request->get('default_lang', ''));
+            $data['i18n'] = $this->_collectI18n();
+        }
+
+        return $data;
+    }
+
+    /**
+     * 收集多語言版本，序列化為 JSON
+     *
+     * 表單以 i18n_lang[] / i18n_title[] / i18n_content[] 三組平行陣列提交，
+     * 語言代碼為空或標題與內容皆為空的區塊會被忽略。
+     *
+     * @return string
+     */
+    private function _collectI18n()
+    {
+        $langs = $this->request->getArray('i18n_lang');
+        $titles = $this->request->getArray('i18n_title');
+        $contents = $this->request->getArray('i18n_content');
+
+        $result = array();
+
+        foreach ($langs as $index => $lang) {
+            $lang = TypechoNotice_I18n::normalize($lang);
+            if ('' === $lang || TypechoNotice_I18n::DEFAULT_KEY === $lang) {
+                continue;
+            }
+
+            $title = isset($titles[$index]) ? trim((string) $titles[$index]) : '';
+            $content = isset($contents[$index]) ? trim((string) $contents[$index]) : '';
+
+            if ('' === $title && '' === $content) {
+                continue;
+            }
+
+            $result[$lang] = array('title' => $title, 'content' => $content);
+        }
+
+        if (empty($result)) {
+            return '';
+        }
+
+        return json_encode($result, defined('JSON_UNESCAPED_UNICODE') ? JSON_UNESCAPED_UNICODE : 0);
     }
 
     /**
