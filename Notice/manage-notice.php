@@ -22,11 +22,11 @@ if ($editId) {
 $notices = $db->fetchAll($db->select()->from('table.notice')->order('order_num', Typecho_Db::SORT_ASC)->order('created', Typecho_Db::SORT_DESC));
 
 // 由舊版本升級而來時補上多語言欄位
-$i18nReady = TypechoNotice_Plugin::ensureI18nColumns();
+$i18nReady = NekoTypechoNotice_Plugin::ensureI18nColumns();
 
 // 編輯中的通知已有的語言版本
-$editTranslations = $editNotice ? TypechoNotice_Plugin::translations($editNotice) : array();
-$siteLang = TypechoNotice_I18n::normalize(TypechoNotice_I18n::siteLang());
+$editTranslations = $editNotice ? NekoTypechoNotice_Plugin::translations($editNotice) : array();
+$siteLang = NekoTypechoNotice_I18n::normalize(NekoTypechoNotice_I18n::siteLang());
 
 function _tn_h($value)
 {
@@ -34,8 +34,8 @@ function _tn_h($value)
 }
 ?>
 
-<datalist id="typecho-notice-langs">
-    <?php foreach (TypechoNotice_I18n::commonTags() as $tag): ?>
+<datalist id="neko-typecho-notice-langs">
+    <?php foreach (NekoTypechoNotice_I18n::commonTags() as $tag): ?>
     <option value="<?php echo _tn_h($tag); ?>"></option>
     <?php endforeach; ?>
 </datalist>
@@ -79,7 +79,7 @@ function _tn_h($value)
                     <ul class="typecho-option">
                         <li>
                             <label class="typecho-label" for="default_lang">主要語言</label>
-                            <input type="text" id="default_lang" name="default_lang" list="typecho-notice-langs"
+                            <input type="text" id="default_lang" name="default_lang" list="neko-typecho-notice-langs"
                                 value="<?php echo _tn_h(isset($editNotice['default_lang']) ? $editNotice['default_lang'] : ''); ?>" />
                             <p class="description">
                                 上方標題與內容所使用的語言。留空則視為站點語言（目前為 <code><?php echo _tn_h($siteLang); ?></code>）。
@@ -100,7 +100,7 @@ function _tn_h($value)
                             <ul class="typecho-option">
                                 <li>
                                     <label class="typecho-label">語言代碼</label>
-                                    <input type="text" name="i18n_lang[]" list="typecho-notice-langs"
+                                    <input type="text" name="i18n_lang[]" list="neko-typecho-notice-langs"
                                         value="<?php echo _tn_h($lang); ?>" placeholder="例如 en、ja、zh-TW" />
                                     <button type="button" class="btn btn-s notice-i18n-remove">移除</button>
                                 </li>
@@ -179,7 +179,7 @@ function _tn_h($value)
                         <li>
                             <button type="submit" class="btn primary"><?php echo $editNotice ? '更新通知' : '新增通知'; ?></button>
                             <?php if ($editNotice): ?>
-                            <a href="<?php echo $adminUrl; ?>extending.php?panel=TypechoNotice/manage-notice.php" class="btn">取消</a>
+                            <a href="<?php echo $adminUrl; ?>extending.php?panel=NekoTypechoNotice/manage-notice.php" class="btn">取消</a>
                             <?php endif; ?>
                         </li>
                     </ul>
@@ -205,12 +205,12 @@ function _tn_h($value)
                             <?php foreach ($notices as $notice): ?>
                             <tr <?php echo (!$notice['visible']) ? 'style="opacity:0.5"' : ''; ?>>
                                 <td>
-                                    <a href="<?php echo $adminUrl; ?>extending.php?panel=TypechoNotice/manage-notice.php&edit=<?php echo $notice['id']; ?>">
+                                    <a href="<?php echo $adminUrl; ?>extending.php?panel=NekoTypechoNotice/manage-notice.php&edit=<?php echo $notice['id']; ?>">
                                         <?php echo htmlspecialchars($notice['title'] ?: '(無標題)'); ?>
                                     </a>
                                     <?php
-                                    $langs = array(TypechoNotice_I18n::normalize(isset($notice['default_lang']) ? $notice['default_lang'] : '') ?: $siteLang);
-                                    foreach (array_keys(TypechoNotice_Plugin::translations($notice)) as $lang) {
+                                    $langs = array(NekoTypechoNotice_I18n::normalize(isset($notice['default_lang']) ? $notice['default_lang'] : '') ?: $siteLang);
+                                    foreach (array_keys(NekoTypechoNotice_Plugin::translations($notice)) as $lang) {
                                         if (!in_array($lang, $langs, true)) {
                                             $langs[] = $lang;
                                         }
@@ -251,7 +251,7 @@ function _tn_h($value)
         <ul class="typecho-option">
             <li>
                 <label class="typecho-label">語言代碼</label>
-                <input type="text" name="i18n_lang[]" list="typecho-notice-langs" value="" placeholder="例如 en、ja、zh-TW" />
+                <input type="text" name="i18n_lang[]" list="neko-typecho-notice-langs" value="" placeholder="例如 en、ja、zh-TW" />
                 <button type="button" class="btn btn-s notice-i18n-remove">移除</button>
             </li>
         </ul>

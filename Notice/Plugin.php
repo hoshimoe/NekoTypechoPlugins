@@ -2,7 +2,7 @@
 /**
  * Typecho 通知與公告插件
  *
- * @package TypechoNotice
+ * @package NekoTypechoNotice
  * @author Hoshi
  * @version 1.1.0
  * @link https://github.com/moehoshio/NekoTypechoPlugins
@@ -10,11 +10,11 @@
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-if (!class_exists('TypechoNotice_I18n', false)) {
+if (!class_exists('NekoTypechoNotice_I18n', false)) {
     require_once dirname(__FILE__) . '/I18n.php';
 }
 
-class TypechoNotice_Plugin implements Typecho_Plugin_Interface
+class NekoTypechoNotice_Plugin implements Typecho_Plugin_Interface
 {
     /**
      * 激活插件
@@ -43,11 +43,11 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
         // 由舊版本升級而來時補上多語言欄位
         self::upgradeTable($db, $prefix);
 
-        Helper::addPanel(3, 'TypechoNotice/manage-notice.php', '通知管理', '管理通知與公告', 'administrator');
-        Helper::addAction('notice-edit', 'TypechoNotice_Action');
+        Helper::addPanel(3, 'NekoTypechoNotice/manage-notice.php', '通知管理', '管理通知與公告', 'administrator');
+        Helper::addAction('notice-edit', 'NekoTypechoNotice_Action');
         
-        Typecho_Plugin::factory('Widget_Archive')->header = array('TypechoNotice_Plugin', 'header');
-        Typecho_Plugin::factory('Widget_Archive')->footer = array('TypechoNotice_Plugin', 'footer');
+        Typecho_Plugin::factory('Widget_Archive')->header = array('NekoTypechoNotice_Plugin', 'header');
+        Typecho_Plugin::factory('Widget_Archive')->footer = array('NekoTypechoNotice_Plugin', 'footer');
         
         return _t('插件已激活，請前往通知管理頁面添加通知。');
     }
@@ -61,7 +61,7 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
      */
     public static function deactivate()
     {
-        Helper::removePanel(3, 'TypechoNotice/manage-notice.php');
+        Helper::removePanel(3, 'NekoTypechoNotice/manage-notice.php');
         Helper::removeAction('notice-edit');
 
         return _t('插件已禁用，通知數據仍保留（如需清除請手動刪除 notice 資料表）。');
@@ -144,8 +144,8 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
     public static function header()
     {
         $options = Helper::options();
-        $pluginOptions = $options->plugin('TypechoNotice');
-        $cssUrl = Typecho_Common::url('TypechoNotice/assets/notice.css', $options->pluginUrl);
+        $pluginOptions = $options->plugin('NekoTypechoNotice');
+        $cssUrl = Typecho_Common::url('NekoTypechoNotice/assets/notice.css', $options->pluginUrl);
         
         echo '<link rel="stylesheet" href="' . $cssUrl . '" />' . "\n";
         
@@ -160,7 +160,7 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
     public static function footer()
     {
         $options = Helper::options();
-        $pluginOptions = $options->plugin('TypechoNotice');
+        $pluginOptions = $options->plugin('NekoTypechoNotice');
 
         $notices = self::getNotices();
 
@@ -172,29 +172,29 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
         $theme = $pluginOptions->theme ?? 'auto';
         $cookieDays = intval($pluginOptions->cookieDays ?? 7);
 
-        echo '<div id="typecho-notice-container" class="typecho-notice-' . $position . '" data-theme="' . $theme . '">' . "\n";
+        echo '<div id="neko-typecho-notice-container" class="neko-typecho-notice-' . $position . '" data-theme="' . $theme . '">' . "\n";
 
         foreach ($notices as $notice) {
             $noticeId = 'notice-' . $notice['id'];
             $lang = empty($notice['lang']) ? '' : ' lang="' . htmlspecialchars($notice['lang']) . '"';
-            echo '<div class="typecho-notice-item typecho-notice-type-' . htmlspecialchars($notice['type']) . '" data-notice-id="' . $notice['id'] . '" id="' . $noticeId . '"' . $lang . '>' . "\n";
-            echo '  <div class="typecho-notice-content">' . "\n";
+            echo '<div class="neko-typecho-notice-item neko-typecho-notice-type-' . htmlspecialchars($notice['type']) . '" data-notice-id="' . $notice['id'] . '" id="' . $noticeId . '"' . $lang . '>' . "\n";
+            echo '  <div class="neko-typecho-notice-content">' . "\n";
             if (!empty($notice['title'])) {
-                echo '    <div class="typecho-notice-title">' . htmlspecialchars($notice['title']) . '</div>' . "\n";
+                echo '    <div class="neko-typecho-notice-title">' . htmlspecialchars($notice['title']) . '</div>' . "\n";
             }
-            echo '    <div class="typecho-notice-text">' . $notice['content'] . '</div>' . "\n";
+            echo '    <div class="neko-typecho-notice-text">' . $notice['content'] . '</div>' . "\n";
             echo '  </div>' . "\n";
-            echo '  <div class="typecho-notice-actions">' . "\n";
-            echo '    <button class="typecho-notice-close" data-notice-id="' . $notice['id'] . '" title="關閉">×</button>' . "\n";
-            echo '    <button class="typecho-notice-dismiss" data-notice-id="' . $notice['id'] . '" title="不再顯示">不再顯示</button>' . "\n";
+            echo '  <div class="neko-typecho-notice-actions">' . "\n";
+            echo '    <button class="neko-typecho-notice-close" data-notice-id="' . $notice['id'] . '" title="關閉">×</button>' . "\n";
+            echo '    <button class="neko-typecho-notice-dismiss" data-notice-id="' . $notice['id'] . '" title="不再顯示">不再顯示</button>' . "\n";
             echo '  </div>' . "\n";
             echo '</div>' . "\n";
         }
         
         echo '</div>' . "\n";
         
-        $jsUrl = Typecho_Common::url('TypechoNotice/assets/notice.js', $options->pluginUrl);
-        echo '<script>var typechoNoticeCookieDays = ' . $cookieDays . ';</script>' . "\n";
+        $jsUrl = Typecho_Common::url('NekoTypechoNotice/assets/notice.js', $options->pluginUrl);
+        echo '<script>var nekoTypechoNoticeCookieDays = ' . $cookieDays . ';</script>' . "\n";
         echo '<script src="' . $jsUrl . '"></script>' . "\n";
     }
 
@@ -220,7 +220,7 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
             return $notices;
         }
 
-        $langs = TypechoNotice_I18n::detect(self::langSource());
+        $langs = NekoTypechoNotice_I18n::detect(self::langSource());
 
         foreach ($notices as &$notice) {
             $notice = self::localize($notice, $langs);
@@ -242,16 +242,16 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
     public static function localize($notice, $langs = null)
     {
         if (null === $langs) {
-            $langs = TypechoNotice_I18n::detect(self::langSource());
+            $langs = NekoTypechoNotice_I18n::detect(self::langSource());
         }
 
-        $baseLang = TypechoNotice_I18n::normalize(isset($notice['default_lang']) ? $notice['default_lang'] : '');
-        if ('' === $baseLang || TypechoNotice_I18n::DEFAULT_KEY === $baseLang) {
-            $baseLang = TypechoNotice_I18n::normalize(TypechoNotice_I18n::siteLang());
+        $baseLang = NekoTypechoNotice_I18n::normalize(isset($notice['default_lang']) ? $notice['default_lang'] : '');
+        if ('' === $baseLang || NekoTypechoNotice_I18n::DEFAULT_KEY === $baseLang) {
+            $baseLang = NekoTypechoNotice_I18n::normalize(NekoTypechoNotice_I18n::siteLang());
         }
         if ('' === $baseLang) {
             // 站點語言也無法辨識時，基礎版本作為不分語言的缺省版本
-            $baseLang = TypechoNotice_I18n::DEFAULT_KEY;
+            $baseLang = NekoTypechoNotice_I18n::DEFAULT_KEY;
         }
 
         // 基礎版本置於首位，使其成為「任意有內容的版本」時的首選
@@ -280,12 +280,12 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
             $langMap[$lang] = $lang;
         }
 
-        $title = TypechoNotice_I18n::resolve($titles, $langs);
-        $content = TypechoNotice_I18n::resolve($contents, $langs);
+        $title = NekoTypechoNotice_I18n::resolve($titles, $langs);
+        $content = NekoTypechoNotice_I18n::resolve($contents, $langs);
 
         $notice['title'] = null === $title ? '' : $title;
         $notice['content'] = null === $content ? '' : $content;
-        $notice['lang'] = TypechoNotice_I18n::resolve($langMap, $langs);
+        $notice['lang'] = NekoTypechoNotice_I18n::resolve($langMap, $langs);
 
         return $notice;
     }
@@ -310,8 +310,8 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
 
         $result = array();
         foreach ($decoded as $lang => $item) {
-            $lang = TypechoNotice_I18n::normalize($lang);
-            if ('' === $lang || TypechoNotice_I18n::DEFAULT_KEY === $lang || !is_array($item)) {
+            $lang = NekoTypechoNotice_I18n::normalize($lang);
+            if ('' === $lang || NekoTypechoNotice_I18n::DEFAULT_KEY === $lang || !is_array($item)) {
                 continue;
             }
 
@@ -332,7 +332,7 @@ class TypechoNotice_Plugin implements Typecho_Plugin_Interface
     public static function langSource()
     {
         try {
-            $pluginOptions = Helper::options()->plugin('TypechoNotice');
+            $pluginOptions = Helper::options()->plugin('NekoTypechoNotice');
             $source = $pluginOptions ? (string) $pluginOptions->langSource : '';
         } catch (Exception $e) {
             $source = '';

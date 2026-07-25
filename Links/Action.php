@@ -1,7 +1,7 @@
 <?php
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-class TypechoLinks_Action extends Typecho_Widget implements Widget_Interface_Do
+class NekoTypechoLinks_Action extends Typecho_Widget implements Widget_Interface_Do
 {
     private $db;
     private $prefix;
@@ -268,7 +268,7 @@ class TypechoLinks_Action extends Typecho_Widget implements Widget_Interface_Do
     private function _redirect()
     {
         $this->response->redirect(
-            Typecho_Common::url('extending.php?panel=TypechoLinks/manage-links.php', Helper::options()->adminUrl)
+            Typecho_Common::url('extending.php?panel=NekoTypechoLinks/manage-links.php', Helper::options()->adminUrl)
         );
     }
 

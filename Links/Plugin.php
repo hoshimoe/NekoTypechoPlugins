@@ -6,7 +6,7 @@
  * 隨機取得一個或多個，以及前端側 RSS 擷取與展示（請求由訪客瀏覽器發出，
  * 不經過伺服器，避免暴露伺服器 IP）。
  *
- * @package TypechoLinks
+ * @package NekoTypechoLinks
  * @author Hoshi
  * @version 1.0.0
  * @link https://github.com/moehoshio/NekoTypechoPlugins
@@ -14,7 +14,7 @@
 
 if (!defined('__TYPECHO_ROOT_DIR__')) exit;
 
-class TypechoLinks_Plugin implements Typecho_Plugin_Interface
+class NekoTypechoLinks_Plugin implements Typecho_Plugin_Interface
 {
     /**
      * 激活插件
@@ -40,12 +40,12 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
             PRIMARY KEY (`id`)
         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4");
 
-        Helper::addPanel(3, 'TypechoLinks/manage-links.php', '友情鏈接', '管理友情鏈接', 'administrator');
-        Helper::addAction('links-edit', 'TypechoLinks_Action');
+        Helper::addPanel(3, 'NekoTypechoLinks/manage-links.php', '友情鏈接', '管理友情鏈接', 'administrator');
+        Helper::addAction('links-edit', 'NekoTypechoLinks_Action');
 
-        Typecho_Plugin::factory('Widget_Archive')->header = array('TypechoLinks_Plugin', 'header');
-        Typecho_Plugin::factory('Widget_Archive')->footer = array('TypechoLinks_Plugin', 'footer');
-        Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('TypechoLinks_Plugin', 'parseContent');
+        Typecho_Plugin::factory('Widget_Archive')->header = array('NekoTypechoLinks_Plugin', 'header');
+        Typecho_Plugin::factory('Widget_Archive')->footer = array('NekoTypechoLinks_Plugin', 'footer');
+        Typecho_Plugin::factory('Widget_Abstract_Contents')->contentEx = array('NekoTypechoLinks_Plugin', 'parseContent');
 
         return _t('插件已激活，請前往「友情鏈接」管理頁面添加或匯入鏈接。');
     }
@@ -58,7 +58,7 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
      */
     public static function deactivate()
     {
-        Helper::removePanel(3, 'TypechoLinks/manage-links.php');
+        Helper::removePanel(3, 'NekoTypechoLinks/manage-links.php');
         Helper::removeAction('links-edit');
 
         return _t('插件已禁用，友鏈資料仍保留（如需清除請手動刪除 friendlinks 資料表）。');
@@ -171,8 +171,8 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
     public static function header()
     {
         $options = Helper::options();
-        $pluginOptions = $options->plugin('TypechoLinks');
-        $cssUrl = Typecho_Common::url('TypechoLinks/assets/links.css', $options->pluginUrl);
+        $pluginOptions = $options->plugin('NekoTypechoLinks');
+        $cssUrl = Typecho_Common::url('NekoTypechoLinks/assets/links.css', $options->pluginUrl);
 
         echo '<link rel="stylesheet" href="' . $cssUrl . '" />' . "\n";
 
@@ -187,7 +187,7 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
     public static function footer()
     {
         $options = Helper::options();
-        $pluginOptions = $options->plugin('TypechoLinks');
+        $pluginOptions = $options->plugin('NekoTypechoLinks');
 
         if (empty($pluginOptions->enableRss) || $pluginOptions->enableRss === '0') {
             return;
@@ -199,8 +199,8 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
         }
         $rssProxy = (string) ($pluginOptions->rssProxy ?? '');
 
-        $jsUrl = Typecho_Common::url('TypechoLinks/assets/links.js', $options->pluginUrl);
-        echo '<script>window.typechoLinksConfig = '
+        $jsUrl = Typecho_Common::url('NekoTypechoLinks/assets/links.js', $options->pluginUrl);
+        echo '<script>window.nekoTypechoLinksConfig = '
             . json_encode(array(
                 'rssItemCount' => $rssItemCount,
                 'rssProxy' => $rssProxy
@@ -354,7 +354,7 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
     public static function render($params = array())
     {
         $options = Helper::options();
-        $pluginOptions = $options->plugin('TypechoLinks');
+        $pluginOptions = $options->plugin('NekoTypechoLinks');
 
         $order = isset($params['order']) && $params['order'] !== ''
             ? $params['order']
@@ -384,10 +384,10 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
         ));
 
         if (empty($links)) {
-            return '<div class="typecho-links typecho-links-empty">' . _t('暫無友情鏈接') . '</div>';
+            return '<div class="neko-typecho-links neko-typecho-links-empty">' . _t('暫無友情鏈接') . '</div>';
         }
 
-        $html = '<div class="typecho-links" data-order="' . htmlspecialchars($order) . '">';
+        $html = '<div class="neko-typecho-links" data-order="' . htmlspecialchars($order) . '">';
 
         if ($groupByCategory) {
             $grouped = array();
@@ -396,8 +396,8 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
                 $grouped[$cat][] = $link;
             }
             foreach ($grouped as $cat => $items) {
-                $html .= '<div class="typecho-links-group">';
-                $html .= '<h3 class="typecho-links-category">' . htmlspecialchars($cat) . '</h3>';
+                $html .= '<div class="neko-typecho-links-group">';
+                $html .= '<h3 class="neko-typecho-links-category">' . htmlspecialchars($cat) . '</h3>';
                 $html .= self::_renderList($items, $linkTarget, $rel, $rssEnabled);
                 $html .= '</div>';
             }
@@ -414,28 +414,28 @@ class TypechoLinks_Plugin implements Typecho_Plugin_Interface
      */
     private static function _renderList($links, $linkTarget, $rel, $rssEnabled)
     {
-        $html = '<ul class="typecho-links-list">';
+        $html = '<ul class="neko-typecho-links-list">';
         foreach ($links as $link) {
             $name = htmlspecialchars($link['name']);
             $url = htmlspecialchars($link['url']);
             $desc = htmlspecialchars($link['description']);
             $image = htmlspecialchars($link['image']);
 
-            $html .= '<li class="typecho-link-item">';
-            $html .= '<a class="typecho-link-main" href="' . $url . '" target="' . $linkTarget . '" rel="' . $rel . '">';
+            $html .= '<li class="neko-typecho-link-item">';
+            $html .= '<a class="neko-typecho-link-main" href="' . $url . '" target="' . $linkTarget . '" rel="' . $rel . '">';
             if ($image !== '') {
-                $html .= '<img class="typecho-link-avatar" src="' . $image . '" alt="' . $name . '" loading="lazy" />';
+                $html .= '<img class="neko-typecho-link-avatar" src="' . $image . '" alt="' . $name . '" loading="lazy" />';
             }
-            $html .= '<span class="typecho-link-info">';
-            $html .= '<span class="typecho-link-name">' . $name . '</span>';
+            $html .= '<span class="neko-typecho-link-info">';
+            $html .= '<span class="neko-typecho-link-name">' . $name . '</span>';
             if ($desc !== '') {
-                $html .= '<span class="typecho-link-desc">' . $desc . '</span>';
+                $html .= '<span class="neko-typecho-link-desc">' . $desc . '</span>';
             }
             $html .= '</span>';
             $html .= '</a>';
 
             if ($rssEnabled && !empty($link['rss'])) {
-                $html .= '<div class="typecho-link-rss" data-rss-url="' . htmlspecialchars($link['rss'])
+                $html .= '<div class="neko-typecho-link-rss" data-rss-url="' . htmlspecialchars($link['rss'])
                     . '" data-link-name="' . $name . '"></div>';
             }
 

@@ -1,11 +1,11 @@
 /**
- * TypechoNotice - 前端通知控制腳本
+ * NekoTypechoNotice - 前端通知控制腳本
  * 使用Cookie記住用戶的「不再顯示」選擇
  */
 (function() {
     'use strict';
 
-    var cookieDays = window.typechoNoticeCookieDays || 7;
+    var cookieDays = window.nekoTypechoNoticeCookieDays || 7;
 
     /**
      * 設置Cookie
@@ -40,7 +40,7 @@
      * 獲取已隱藏的通知ID列表
      */
     function getDismissedNotices() {
-        var dismissed = getCookie('typecho_notice_dismissed');
+        var dismissed = getCookie('neko_typecho_notice_dismissed');
         if (!dismissed) return [];
         try {
             return JSON.parse(dismissed);
@@ -57,7 +57,7 @@
         if (dismissed.indexOf(noticeId) === -1) {
             dismissed.push(noticeId);
         }
-        setCookie('typecho_notice_dismissed', JSON.stringify(dismissed), cookieDays);
+        setCookie('neko_typecho_notice_dismissed', JSON.stringify(dismissed), cookieDays);
     }
 
     /**
@@ -75,10 +75,10 @@
      * 檢查容器是否為空
      */
     function checkContainerEmpty() {
-        var container = document.getElementById('typecho-notice-container');
+        var container = document.getElementById('neko-typecho-notice-container');
         if (!container) return;
         
-        var visibleItems = container.querySelectorAll('.typecho-notice-item:not([style*="display: none"])');
+        var visibleItems = container.querySelectorAll('.neko-typecho-notice-item:not([style*="display: none"])');
         if (visibleItems.length === 0) {
             container.style.display = 'none';
         }
@@ -88,11 +88,11 @@
      * 初始化
      */
     function init() {
-        var container = document.getElementById('typecho-notice-container');
+        var container = document.getElementById('neko-typecho-notice-container');
         if (!container) return;
 
         var dismissed = getDismissedNotices();
-        var items = container.querySelectorAll('.typecho-notice-item');
+        var items = container.querySelectorAll('.neko-typecho-notice-item');
 
         // 隱藏已dismiss的通知
         items.forEach(function(item) {
@@ -109,17 +109,17 @@
             var target = e.target;
 
             // 關閉按鈕 - 僅隱藏本次
-            if (target.classList.contains('typecho-notice-close')) {
-                var noticeItem = target.closest('.typecho-notice-item');
+            if (target.classList.contains('neko-typecho-notice-close')) {
+                var noticeItem = target.closest('.neko-typecho-notice-item');
                 if (noticeItem) {
                     hideNotice(noticeItem);
                 }
             }
 
             // 不再顯示按鈕 - 記入Cookie
-            if (target.classList.contains('typecho-notice-dismiss')) {
+            if (target.classList.contains('neko-typecho-notice-dismiss')) {
                 var noticeId = target.getAttribute('data-notice-id');
-                var noticeItem = target.closest('.typecho-notice-item');
+                var noticeItem = target.closest('.neko-typecho-notice-item');
                 if (noticeId && noticeItem) {
                     dismissNotice(noticeId);
                     hideNotice(noticeItem);

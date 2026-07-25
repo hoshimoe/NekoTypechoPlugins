@@ -1,4 +1,4 @@
-# TypechoLinks
+# NekoTypechoLinks
 
 一個功能完善的 Typecho 友情鏈接插件，支持現有友鏈匯入、優先級、分類、排序/隨機排序、隨機取得一個或多個，以及前端側 RSS 擷取與展示。
 
@@ -19,11 +19,11 @@
 
 ## 安裝
 
-1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Links` 目錄，並將文件夾重命名為 `TypechoLinks`
+1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Links` 目錄，並將文件夾重命名為 `NekoTypechoLinks`
 2. 上傳至 Typecho 的 `usr/plugins/` 目錄
-3. 在後台「插件」頁面啟用 `TypechoLinks`
+3. 在後台「插件」頁面啟用 `NekoTypechoLinks`
 
-> 注意：插件文件夾名稱必須為 `TypechoLinks`，否則無法正常載入。
+> 注意：插件文件夾名稱必須為 `NekoTypechoLinks`，否則無法正常載入。
 
 ## 使用方法
 
@@ -74,24 +74,24 @@
 ```php
 <?php
 // 渲染完整友鏈列表（HTML）
-echo TypechoLinks_Plugin::render();
+echo NekoTypechoLinks_Plugin::render();
 
 // 帶參數渲染
-echo TypechoLinks_Plugin::render(array(
+echo NekoTypechoLinks_Plugin::render(array(
     'category' => '技術',
     'order'    => 'random',
     'limit'    => 12,
 ));
 
 // 取得友鏈資料陣列（自行渲染）
-$links = TypechoLinks_Plugin::getLinks(array('order' => 'priority', 'limit' => 0));
+$links = NekoTypechoLinks_Plugin::getLinks(array('order' => 'priority', 'limit' => 0));
 
 // 隨機取得一個或多個友鏈
-$one  = TypechoLinks_Plugin::getRandomLinks(1);
-$some = TypechoLinks_Plugin::getRandomLinks(5);
+$one  = NekoTypechoLinks_Plugin::getRandomLinks(1);
+$some = NekoTypechoLinks_Plugin::getRandomLinks(5);
 
 // 取得所有分類
-$categories = TypechoLinks_Plugin::getCategories();
+$categories = NekoTypechoLinks_Plugin::getCategories();
 ?>
 ```
 
@@ -114,7 +114,7 @@ $categories = TypechoLinks_Plugin::getCategories();
 ## 目錄結構
 
 ```
-TypechoLinks/
+NekoTypechoLinks/
 ├── Plugin.php          # 主插件文件
 ├── Action.php          # 後台操作處理（CRUD 與匯入）
 ├── manage-links.php    # 後台管理頁面
@@ -124,6 +124,29 @@ TypechoLinks/
 ├── LICENSE
 └── README.md
 ```
+
+## 從舊版本升級
+
+### 從 `TypechoLinks` 舊命名升級
+
+插件自有的類名、部署資料夾名與 CSS 類名已統一改為 `NekoTypechoLinks` / `neko-typecho-*` 前綴。
+（Typecho 核心的類名與後台樣式，如 `Typecho_Db`、`typecho-option`，維持原樣不受影響。）
+
+升級步驟：
+
+1. 在後台「插件」頁面**停用** `TypechoLinks`。
+2. 將 `usr/plugins/TypechoLinks` 重新命名為 `usr/plugins/NekoTypechoLinks`，並以新版檔案覆蓋。
+3. 重新**啟用** `NekoTypechoLinks`。
+
+需要留意的變更：
+
+- **友鏈資料不受影響**：`friendlinks` 資料表名稱未變，既有友鏈全部保留。
+- **插件設置會重置**：Typecho 以插件名稱儲存設置，改名後請在設置頁重新配置一次。
+- **自定義 CSS 與主題模板需同步**：`.typecho-links*` → `.neko-typecho-links*`、`.typecho-link-*` → `.neko-typecho-link-*`。
+- **主題調用需同步**：`TypechoLinks_Plugin::` → `NekoTypechoLinks_Plugin::`。
+- 前端 RSS 腳本讀取的全域變數由 `typechoLinksConfig` 改為 `nekoTypechoLinksConfig`（由插件自動輸出，一般無需手動處理）。
+
+> 「從官方 Links 插件匯入」功能不受影響：它讀取的是 Typecho **官方** Links 插件的 `links` 資料表，與本插件改名無關。
 
 ## 授權
 

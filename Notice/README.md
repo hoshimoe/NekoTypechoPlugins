@@ -1,4 +1,4 @@
-# TypechoNotice
+# NekoTypechoNotice
 
 一個用於 Typecho 的通知與公告插件，支持多條通知管理、定時顯示、多語言版本、現代化UI以及用戶記憶功能。
 
@@ -20,11 +20,11 @@
 
 ## 安裝
 
-1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Notice` 目錄，並將文件夾重命名為 `TypechoNotice`
+1. 從 [NekoTypechoPlugins](https://github.com/moehoshio/NekoTypechoPlugins) 倉庫下載 `Notice` 目錄，並將文件夾重命名為 `NekoTypechoNotice`
 2. 上傳至 Typecho 的 `usr/plugins/` 目錄
-3. 在後台「插件」頁面啟用 `TypechoNotice`
+3. 在後台「插件」頁面啟用 `NekoTypechoNotice`
 
-> 注意：插件文件夾名稱必須為 `TypechoNotice`，否則無法正常載入。
+> 注意：插件文件夾名稱必須為 `NekoTypechoNotice`，否則無法正常載入。
 
 ## 使用方法
 
@@ -76,7 +76,7 @@
 ```php
 <?php
 // 已依訪客語言取好標題與內容，另附 lang 欄位標示實際採用的語言
-$notices = TypechoNotice_Plugin::getNotices();
+$notices = NekoTypechoNotice_Plugin::getNotices();
 foreach ($notices as $notice) {
     echo '<div class="my-notice" lang="' . htmlspecialchars($notice['lang']) . '">';
     echo '<h4>' . htmlspecialchars($notice['title']) . '</h4>';
@@ -85,10 +85,10 @@ foreach ($notices as $notice) {
 }
 
 // 取得未經語言處理的原始資料
-$raw = TypechoNotice_Plugin::getNotices(false);
+$raw = NekoTypechoNotice_Plugin::getNotices(false);
 
 // 指定語言取值
-$notice = TypechoNotice_Plugin::localize($raw[0], array('ja'));
+$notice = NekoTypechoNotice_Plugin::localize($raw[0], array('ja'));
 ?>
 ```
 
@@ -98,12 +98,12 @@ $notice = TypechoNotice_Plugin::localize($raw[0], array('ja'));
 
 ```css
 /* 修改通知圓角 */
-.typecho-notice-item {
+.neko-typecho-notice-item {
     border-radius: 0;
 }
 
 /* 修改通知背景 */
-.typecho-notice-item {
+.neko-typecho-notice-item {
     background: rgba(255, 255, 255, 0.95);
 }
 ```
@@ -123,7 +123,7 @@ CSS變量列表：
 ## 目錄結構
 
 ```
-TypechoNotice/
+NekoTypechoNotice/
 ├── Plugin.php          # 主插件文件
 ├── Action.php          # 後台操作處理
 ├── I18n.php            # 多語言解析與語言回退
@@ -136,6 +136,27 @@ TypechoNotice/
 ```
 
 ## 從舊版本升級
+
+### 從 `TypechoNotice` 舊命名升級
+
+插件自有的類名、部署資料夾名、CSS 類名與 Cookie 鍵已統一改為 `NekoTypechoNotice` / `neko-typecho-*` 前綴。
+（Typecho 核心的類名與後台樣式，如 `Typecho_Db`、`typecho-option`、Cookie `typecho_lang`，維持原樣不受影響。）
+
+升級步驟：
+
+1. 在後台「插件」頁面**停用** `TypechoNotice`。
+2. 將 `usr/plugins/TypechoNotice` 重新命名為 `usr/plugins/NekoTypechoNotice`，並以新版檔案覆蓋。
+3. 重新**啟用** `NekoTypechoNotice`。
+
+需要留意的變更：
+
+- **通知資料不受影響**：`notice` 資料表名稱未變，既有通知與多語言版本全部保留。
+- **插件設置會重置**：Typecho 以插件名稱儲存設置，改名後請在設置頁重新配置一次（顯示位置、主題、Cookie 天數、多語言判定方式、自定義CSS）。
+- **自定義 CSS 需同步**：`.typecho-notice-*` → `.neko-typecho-notice-*`，容器 id `typecho-notice-container` → `neko-typecho-notice-container`。
+- **主題調用需同步**：`TypechoNotice_Plugin::` → `NekoTypechoNotice_Plugin::`。
+- **訪客的「不再顯示」記錄會重置**：Cookie 鍵由 `typecho_notice_dismissed` 改為 `neko_typecho_notice_dismissed`，先前點過「不再顯示」的訪客會再看到一次通知。
+
+### 多語言欄位
 
 多語言功能為 `notice` 資料表新增了 `default_lang` 與 `i18n` 兩個欄位，需要**停用後再啟用**插件才會套用。
 

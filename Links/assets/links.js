@@ -1,5 +1,5 @@
 /**
- * TypechoLinks - 友情鏈接前端腳本
+ * NekoTypechoLinks - 友情鏈接前端腳本
  *
  * 在訪客瀏覽器端擷取友鏈的 RSS 訂閱並顯示最新文章。
  * 請求由訪客瀏覽器直接發出，不經過本站伺服器，因此不會暴露伺服器 IP。
@@ -10,7 +10,7 @@
 (function () {
     'use strict';
 
-    var config = window.typechoLinksConfig || {};
+    var config = window.nekoTypechoLinksConfig || {};
     var itemCount = parseInt(config.rssItemCount, 10) || 3;
     var proxy = config.rssProxy || '';
 
@@ -126,7 +126,7 @@
     }
 
     function init() {
-        var containers = document.querySelectorAll('.typecho-link-rss[data-rss-url]');
+        var containers = document.querySelectorAll('.neko-typecho-link-rss[data-rss-url]');
         for (var i = 0; i < containers.length; i++) {
             fetchOne(containers[i]);
         }
